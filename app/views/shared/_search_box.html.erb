@@ -1,0 +1,78 @@
+<div class="xspace col-12">
+  <%= form_tag path, :method => "get" do %>
+    <div class="row">
+      <b><%= label_tag(:search, "Search for an article:") %></b>
+    </div>
+    <div class="row sspace">
+      <%= text_field_tag :search, params[:search] %>
+    </div>
+    <div class="row space">
+      <%= submit_tag("Search", :name => nil, class:"btn btn-secondary btn-sm") %>
+    </div>
+  <% end %>
+
+  <% if @search == [] %>
+    <div class="row form-inline">
+      <%= link_to "<i class='far fa-window-close fa-lg'></i> ".html_safe, path,
+          class:"nav-link close-symbol" %>
+      <h5>Article not found!</h5>
+    </div>
+  <% elsif @search != nil %>
+    <div class="row form-inline">
+      <%= link_to "<i class='far fa-window-close fa-lg'></i> ".html_safe, path,
+        class:"nav-link close-symbol" %>
+      <h5>Article found!</h5>
+    </div>
+    <% @search.each do |article| %>
+      <div class="space">
+        <div class="card border-dark col-md-10 col-sm-12">
+          <div class="card-header border-dark">
+            <h5><%= article.title %></h5>
+          </div>
+          <div class="card-body">
+            <p>
+              <b>Writer: &nbsp;</b>
+              <u><%= link_to  article.user.username, user_path(article.user),
+                                                     class: "text-dark" %></u>
+            </p>
+
+            <p>
+              <b>Categories: &nbsp;</b>
+              <% if article.categories.length.zero? %>
+                None
+              <% else %>
+                <% article.categories.each do |category| %>
+                  <u>
+                    <%= link_to category.name, category_path(category),
+                                               class: "text-dark" %>
+                  </u>
+                  &nbsp;
+                <% end %>
+              <% end %>
+            </p>
+
+            <small>
+              <p>
+                <b>Created at: &nbsp;</b><%= time_ago_in_words(article.created_at) %> ago.
+                <% if time_ago_in_words(article.created_at) !=
+                      time_ago_in_words(article.updated_at) %>
+                  <b>| Last updated: </b><%= time_ago_in_words(article.updated_at) %> ago.
+                <% end %>
+              </p>
+              <%= link_to "Show", article_path(article),
+                                  class:"btn btn-secondary btn-sm" %>
+              <% if logged_in? && (current_user == article.user || current_user.admin) %>
+                <%= link_to "Edit", edit_article_path(article),
+                                    class:"btn btn-secondary btn-sm" %>
+                <%= link_to "Delete", article_path(article),
+                                      method: :delete,
+                                      data: {confirm: "Are you sure?"},
+                                      class:"btn btn-secondary btn-sm" %>
+              <% end %>
+            </small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

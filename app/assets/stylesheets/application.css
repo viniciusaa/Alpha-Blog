@@ -13,3 +13,50 @@
  *= require_tree .
  *= require_self
  */
+
+ .center {
+   text-align: center;
+ }
+
+ .error {
+   color: red;
+ }
+
+ .body-margin {
+   margin-top: 3%;
+ }
+
+ hr {
+   background-color: black;
+ }
+
+ .close-symbol {
+   position: relative;
+   left: 10px;
+   bottom: 4px;
+   color: red;
+ }
+
+ .sspace {
+   margin-bottom: 1%;
+ }
+
+ .space {
+   margin-bottom: 3%;
+ }
+
+ .mspace {
+   margin-bottom: 5%;
+ }
+
+ .xspace {
+   margin-bottom: 10%;
+ }
+
+ .space-top {
+   margin-top: 5%;
+ }
+
+ .button-spacing {
+   margin-right: 5px;
+ }
