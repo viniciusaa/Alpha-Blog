@@ -2,14 +2,14 @@
   <div class="container">
     <div class="row error">
       <div class="col-12">
-        <div class="card bg-light text-red">
-          <div class="card-header">
+        <div class="card border-danger">
+          <div class="card-header text-danger">
             <h4>
               <%= pluralize(obj.errors.count, "error") %>
               prohibited this from behing saved:
             </h4>
           </div>
-          <div class="card-body">
+          <div class="card-body text-danger">
             <% obj.errors.full_messages.each do |msg| %>
               <ul>
                 <li><%= msg %></li>
