@@ -1,0 +1,14 @@
+<%= render "shared/title", title: "Edit Article" %>
+
+<%= render "form" %>
+
+<div class="row col-12">
+  <p>
+    <%= link_to "Articles listing", articles_path,
+                                    class:"btn btn-secondary button-spacing" %>
+  </p>
+  <p>
+    <%= link_to "Show", article_path(@article),
+                        class:"btn btn-secondary" %>
+  </p>
+</div>

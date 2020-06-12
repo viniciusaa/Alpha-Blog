@@ -1,0 +1,30 @@
+<!-- Displaying errors -->
+<%= render "shared/errors", obj: @article %>
+<!-- Form -->
+<div class="xspace">
+  <%= form_for @article do |f| %>
+    <div class="space space-top">
+      <div class="row col-12">
+        <b><%= f.label :title %></b>
+      </div>
+
+      <div class="row col-md-8 col-lg-6">
+        <%= f.text_field :title, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="space">
+      <div class="row col-12">
+        <b><%= f.label :description %></b>
+      </div>
+
+      <div class="row col-md-8 col-lg-6">
+        <%= f.text_area :description, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="row col-12">
+      <%= f.submit "Confirm", class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>

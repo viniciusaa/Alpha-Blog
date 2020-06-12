@@ -1,38 +1,28 @@
-<div class="xspace col-12">
-  <%= form_tag path, :method => "get" do %>
-    <div class="row">
-      <b><%= label_tag(:search, "Search for an article:") %></b>
-    </div>
-    <div class="row sspace">
-      <%= text_field_tag :search, params[:search] %>
-    </div>
-    <div class="row space">
-      <%= submit_tag("Search", :name => nil, class:"btn btn-secondary btn-sm") %>
-    </div>
-  <% end %>
+<%= render "shared/title", title: "Listing All Articles" %>
 
-  <% if @search == [] %>
-    <div class="row form-inline">
-      <%= link_to "<i class='far fa-window-close fa-lg'></i> ".html_safe, path,
-          class:"nav-link close-symbol" %>
-      <h5>Article not found!</h5>
+<div class="row mspace col-12">
+  <b><%= link_to "Create new article", new_article_path,
+                                       class:"btn btn-secondary" %></b>
+</div>
+
+<% if @articles.any? %>
+  <%= render "shared/search_box", path: articles_path %>
+
+  <% if @search != [] && @search == nil %>
+    <div class="row offset-4 sspace">
+      <%= will_paginate %>
     </div>
-  <% elsif @search != nil %>
-    <div class="row form-inline">
-      <%= link_to "<i class='far fa-window-close fa-lg'></i> ".html_safe, path,
-        class:"nav-link close-symbol" %>
-      <h5>Article found!</h5>
-    </div>
-    <% @search.each do |article| %>
+
+    <% @articles.each do |article| %>
       <div class="space">
-        <div class="card border-dark col-md-10 col-sm-12">
-          <div class="card-header border-dark">
+        <div class="card text-white bg-dark col-md-10 col-sm-12">
+          <div class="card-header border-secondary">
             <h5><%= article.title %></h5>
           </div>
           <div class="card-body">
             <p>
               <b>Writer: &nbsp;</b>
-              <u><%= link_to  article.user.email, "#", class: "text-dark" %></u>
+              <u><%= link_to  article.user.email, "#", class: "text-white" %></u>
             </p>
 
             <small>
@@ -56,5 +46,15 @@
         </div>
       </div>
     <% end %>
+
+    <div class="row offset-4 sspace">
+      <%= will_paginate %>
+    </div>
   <% end %>
-</div>
+<% else %>
+  <div class="row xspace">
+    <div class="center col-12 text-danger">
+      <h5>There are no articles to display</h5>
+    </div>
+  </div>
+<% end %>

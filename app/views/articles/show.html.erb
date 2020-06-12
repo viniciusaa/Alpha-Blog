@@ -1,0 +1,53 @@
+<%= render "shared/title", title: "Title: " + @article.title %>
+
+<div class="mspace">
+  <div class="card text-white bg-dark">
+    <div class="card-header border-secondary">
+      <h5 class="center">Description:</h5>
+    </div>
+    <div class="card-body">
+      <p class="card-title"><%= @article.description %></p>
+    </div>
+  </div>
+</div>
+
+<div class="row mspace">
+  <div class="col-xl-5 col-lg-6 col-md-7">
+    <div class="card border-secondary">
+      <div class="card-body">
+        <h5 class="card-text"><b>Writer:</b>
+          <u>
+            <%= link_to @article.user.email, "#", class: "text-dark" %>
+          </u>
+        </h5>
+
+        <h5 class="card-text"><b>Created at:</b>
+          <%= time_ago_in_words(@article.created_at) %> ago.
+        </h5>
+        <% if time_ago_in_words(@article.created_at) !=
+              time_ago_in_words(@article.updated_at) %>
+          <h5 class="card-text"><b>Last updated: </b>
+            <%= time_ago_in_words(@article.updated_at) %> ago.
+          </h5>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row col-12">
+  <p>
+    <%= link_to "Articles listing", articles_path,
+                                    class:"btn btn-secondary button-spacing" %>
+  </p>
+  <p>
+    <%= link_to "Edit", edit_article_path(@article),
+                        class:"btn btn-secondary button-spacing" %>
+  </p>
+  <p>
+    <%= link_to "Delete", article_path(@article),
+                        method: :delete,
+                        data: {confirm: "Are you sure?"},
+                        class:"btn btn-secondary" %>
+  </p>
+</div>
