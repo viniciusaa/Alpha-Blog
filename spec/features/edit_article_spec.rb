@@ -4,11 +4,7 @@ RSpec.feature "Edit Article", :type => :feature do
   before do
     @user = create(:user)
     @article = create(:article, title: "Title one", description: "Description One.")
-    visit "/"
-    click_link "Login"
-    fill_in "Email", with: @user.email
-    fill_in "Password", with: @user.password
-    click_button "Log in"
+    login_as(@user)
   end
 
   scenario "A user edit a article" do
