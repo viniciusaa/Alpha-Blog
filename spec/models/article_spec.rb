@@ -1,14 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Article, type: :model do
+	before do
+		@user = create(:user)
+	end
+	
 	describe "title" do
 		it "should be valid" do
 			should validate_presence_of(:title)
 		end
 
     it "should be unique" do
-      create(:user)
-      create(:article)
+      create(:article, user_id: @user.id)
       should validate_uniqueness_of(:title).ignoring_case_sensitivity
     end
 
@@ -17,8 +20,7 @@ RSpec.describe Article, type: :model do
     end
 
     it "should be capitalized" do
-			create(:user)
-      create(:article, title: "tEsTinG caPiTalize")
+      create(:article, title: "tEsTinG caPiTalize", user_id: @user.id)
       expect(Article.last.title).to eql("Testing capitalize")
     end
 	end
@@ -41,10 +43,9 @@ RSpec.describe Article, type: :model do
 
 	describe "search method" do
 		it "find the correct results" do
-			create(:user)
-			article1 = create(:article, title: "Should Find")
-			article2 = create(:article, title: "Should Find Too")
-			article3 = create(:article, title: "Dont Find")
+			article1 = create(:article, title: "Should Find", user_id: @user.id)
+			article2 = create(:article, title: "Should Find Too", user_id: @user.id)
+			article3 = create(:article, title: "Dont Find", user_id: @user.id)
 			expect(Article.search("Should Find")).to contain_exactly(article1, article2)
 		end
 
@@ -54,9 +55,8 @@ RSpec.describe Article, type: :model do
 	end
 
 	it "has created decrescent order" do
-		create(:user)
-	  create(:article)
-	  create(:article, title: "Testing")
+	  create(:article, user_id: @user.id)
+	  create(:article, title: "Testing", user_id: @user.id)
 	  expect(Article.first.title).to eql("Testing")
 	end
 

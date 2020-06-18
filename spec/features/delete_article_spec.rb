@@ -3,11 +3,13 @@ require "rails_helper"
 RSpec.feature "Delete Article", :type => :feature do
   before do
     @user = create(:user)
-    @article = create(:article, title: "Title one", description: "Description One.")
     login_as(@user)
+    @article = create(:article, title: "Title one",
+                                description: "Description One.",
+                                user_id: @user.id)
   end
 
-  scenario "A user edit a article" do
+  scenario "A user delete an article" do
     visit "/"
     click_link "Actions"
     click_link "Articles"

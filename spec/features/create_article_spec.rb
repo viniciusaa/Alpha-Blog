@@ -6,7 +6,7 @@ RSpec.feature "Create Article", :type => :feature do
     login_as(@user)
   end
 
-  scenario "A user log-in and creates a new article" do
+  scenario "A user create a new article" do
     visit "/"
     click_link "New Article"
     expect(page.current_path).to eq(new_article_path)
@@ -21,7 +21,7 @@ RSpec.feature "Create Article", :type => :feature do
     expect(page).to have_content("Writer: #{@user.email}")
   end
 
-  scenario "A user fails to creates a new article" do
+  scenario "A user fails to create a new article" do
     visit "/"
     click_link "New Article"
     expect(page.current_path).to eq(new_article_path)

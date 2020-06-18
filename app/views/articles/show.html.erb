@@ -40,14 +40,16 @@
     <%= link_to "Articles listing", articles_path,
                                     class:"btn btn-secondary button-spacing" %>
   </p>
-  <p>
-    <%= link_to "Edit", edit_article_path(@article),
-                        class:"btn btn-secondary button-spacing" %>
-  </p>
-  <p>
-    <%= link_to "Delete", article_path(@article),
-                        method: :delete,
-                        data: {confirm: "Are you sure?"},
-                        class:"btn btn-secondary" %>
-  </p>
+  <% if user_signed_in? && @article.user == current_user %>
+    <p>
+      <%= link_to "Edit", edit_article_path(@article),
+                          class:"btn btn-secondary button-spacing" %>
+    </p>
+    <p>
+      <%= link_to "Delete", article_path(@article),
+                          method: :delete,
+                          data: {confirm: "Are you sure?"},
+                          class:"btn btn-secondary" %>
+    </p>
+  <% end %>
 </div>

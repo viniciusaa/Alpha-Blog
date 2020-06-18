@@ -6,7 +6,7 @@ RSpec.feature "Sign Out", :type => :feature do
     login_as(@user)
   end
 
-  scenario do
+  scenario "A user log out" do
     visit "/"
     click_link "Signout"
     expect(page).to have_content("Signed out successfully.")
