@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :select_article, except: [:new, :create, :index]
+  before_action :require_owner, only: [:edit, :update, :destroy]
 
   def new
     @article = Article.new
@@ -56,5 +57,12 @@ class ArticlesController < ApplicationController
 
   def select_article
     @article = Article.find(params[:id])
+  end
+
+  def require_owner
+    unless current_user == @article.user
+      flash[:danger] = "You can only modify your own articles"
+      redirect_to root_path
+    end
   end
 end
