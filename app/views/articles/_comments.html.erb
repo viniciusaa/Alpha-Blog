@@ -1,0 +1,71 @@
+<div class="col-12 xspace">
+  <h5>Comments:</h5>
+  <div class="col-9 sspace-top">
+      <% if @comments.any? %>
+        <% persisted_comments(@comments).each do |comment| %>
+          <div class="col-12 card text-white bg-dark space">
+            <div class="card-body">
+              <div class="card-title">
+                <small>
+                  <p>
+                    <u><%= comment.user.email %></u> -
+                    <%= time_ago_in_words(comment.created_at) %> ago.
+                  </p>
+                </small>
+              </div>
+              <h5 class="card-text"><%= comment.body %></h5>
+            </div>
+          </div>
+        <% end %>
+        <div class="row offset-4 sspace">
+          <%= will_paginate @comments %>
+        </div>
+      <% else %>
+        <b><p>There are no comments to display</p></b>
+      <% end %>
+  </div>
+
+  <% if user_signed_in? %>
+    <div class="col-12">
+      <%= form_for [@article, @comment] do |f| %>
+        <% if @comment.errors.any? %>
+          <div class="container">
+            <div class="row error">
+              <div class="col-12">
+                <div class="card border-danger">
+                  <div class="card-header text-danger">
+                    <h4>
+                      <%= pluralize(@comment.errors.count, "error") %>
+                      prohibited this comment from behing saved:
+                    </h4>
+                  </div>
+                  <div class="card-body text-danger">
+                    <% @comment.errors.full_messages.each do |msg| %>
+                      <ul>
+                        <li><%= msg %></li>
+                      </ul>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="space space-top">
+          <div class="row col-12">
+            <b><%= f.label :body, "New comment" %></b>
+          </div>
+
+          <div class="row col-md-8 col-lg-6">
+            <%= f.text_area :body, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="row col-12 space">
+          <%= f.submit "Add comment", class: "btn btn-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

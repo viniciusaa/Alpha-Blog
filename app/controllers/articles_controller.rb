@@ -29,7 +29,10 @@ class ArticlesController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @comment = @article.comments.build
+    @comments = @article.comments.paginate(page: params[:page], per_page: 7)
+  end
 
   def index
     @search = Article.search(params[:search])

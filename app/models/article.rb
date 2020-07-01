@@ -7,6 +7,7 @@ class Article < ApplicationRecord
   validates :user_id, presence: true
   default_scope -> { order(created_at: :desc) }
   belongs_to :user
+  has_many :comments, dependent: :destroy
   # has_many :article_categories
   # has_many :categories, through: :article_categories
 
