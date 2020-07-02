@@ -30,33 +30,69 @@ RSpec.describe "Articles", type: :request do
     end
   end
 
-  describe "GET /articles/:id/edit" do
-    context "with non signed-in user" do
-      before do
-        get "/articles/#{@article.id}/edit"
-      end
-      it "redirect to home page" do
-        expect(response.status).to eq(302)
-      end
-    end
-
-    context "with signed-in user who is not owner" do
-      before do
-        login_as(@second_user)
-        get "/articles/#{@article.id}/edit"
-      end
-      it "redirect to home page" do
-        expect(response.status).to eq(302)
-      end
-    end
-
-    context "with signed-in user who is the owner" do
+  describe "PUT /articles/:id" do
+    context "with a signed-in user" do
       before do
         login_as(@user)
-        get "/articles/#{@article.id}/edit"
+        put "/articles/#{@article.id}",
+            params: {article: {title: "New title",
+                               description: "New description"}}
       end
-      it "successfully edits article" do
-        expect(response.status).to eq(200)
+      it "edit the article successfully" do
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(article_path(@article))
+      end
+    end
+
+    context "with a non signed-in user" do
+      before do
+        put "/articles/#{@article.id}",
+            params: {article: {title: "New title",
+                               description: "New description"}}
+      end
+      it "redirect user to the sign-in page" do
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    context "with a signed-in user who is not the owner" do
+      before do
+        login_as(@second_user)
+        put "/articles/#{@article.id}",
+            params: {article: {title: "New title",
+                               description: "New description"}}
+      end
+      it "redirect user to the root page" do
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(root_path)
+      end
+    end
+  end
+
+  describe "POST /articles" do
+    context "with a signed-in user" do
+      before do
+        login_as(@user)
+        post "/articles",
+            params: {article: {title: "New title",
+                               description: "New description"}}
+      end
+      it "creates a new article successfully" do
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(article_path(Article.first))
+      end
+    end
+
+    context "with a non signed-in user" do
+      before do
+        post "/articles",
+            params: {article: {title: "New title",
+                               description: "New description"}}
+      end
+      it "creates a new article successfully" do
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
