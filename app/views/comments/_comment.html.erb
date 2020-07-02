@@ -1,0 +1,13 @@
+<div class="col-12 card text-white bg-dark space">
+  <div class="card-body">
+    <div class="card-title">
+      <small>
+        <p>
+          <u><%= comment.user.email %></u> -
+          <%= time_ago_in_words(comment.created_at) %> ago.
+        </p>
+      </small>
+    </div>
+    <h5 class="card-text"><%= comment.body %></h5>
+  </div>
+</div>

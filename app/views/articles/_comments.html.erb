@@ -2,21 +2,23 @@
   <h5>Comments:</h5>
   <div class="col-9 sspace-top">
       <% if @comments.any? %>
-        <% persisted_comments(@comments).each do |comment| %>
-          <div class="col-12 card text-white bg-dark space">
-            <div class="card-body">
-              <div class="card-title">
-                <small>
-                  <p>
-                    <u><%= comment.user.email %></u> -
-                    <%= time_ago_in_words(comment.created_at) %> ago.
-                  </p>
-                </small>
+        <div id="messages">
+          <% persisted_comments(@comments).each do |comment| %>
+            <div class="col-12 card text-white bg-dark space">
+              <div class="card-body">
+                <div class="card-title">
+                  <small>
+                    <p>
+                      <u><%= comment.user.email %></u> -
+                      <%= time_ago_in_words(comment.created_at) %> ago.
+                    </p>
+                  </small>
+                </div>
+                <h5 class="card-text"><%= comment.body %></h5>
               </div>
-              <h5 class="card-text"><%= comment.body %></h5>
             </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
         <div class="row offset-4 sspace">
           <%= will_paginate @comments %>
         </div>
@@ -27,7 +29,7 @@
 
   <% if user_signed_in? %>
     <div class="col-12">
-      <%= form_for [@article, @comment] do |f| %>
+      <%= form_for [@article, @comment], remote: true do |f| %>
         <% if @comment.errors.any? %>
           <div class="container">
             <div class="row error">
